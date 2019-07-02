@@ -1,0 +1,20 @@
+library(rsconnect)
+rsconnect::setAccountInfo(name='afakims',
+			  token='BBB49EC166F3F7610934BD1062EF38F1',
+			  secret='<SECRET>')
+rsconnect::deployApp('path/to/your/app')
+
+
+
+setwd("datasets")
+db <- dbConnect(SQLite(), "datasets.sqlite")
+dbWriteTable(db, name="iris_data", value=iris, row.names=FALSE, append=TRUE)
+dbDisconnect(db)
+
+dbListTables(db)
+
+dbListFields(db, "iris_data")
+
+res <- dbSendQuery(db, "SELECT * FROM iris_data LIMIT 10")
+dbFetch(res)
+
